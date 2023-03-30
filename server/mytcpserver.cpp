@@ -5,6 +5,8 @@
 MyTcpServer::~MyTcpServer()
 {
     //mTcpSocket->close();
+    for (QTcpSocket* s : mTcpSocket)
+        s->close();
     mTcpServer->close();
     server_status=0;
 }
@@ -35,7 +37,7 @@ void MyTcpServer::slotNewConnection(){
 }
 
 void MyTcpServer::slotServerRead(){
-    QTcpSocket *cur_mTcpSocket = mTcpSocket[mTcpServer->socketDescriptor()];
+    QTcpSocket *cur_mTcpSocket = (QTcpSocket *)sender();
     while(cur_mTcpSocket->bytesAvailable()>0)
     {
         QByteArray array =cur_mTcpSocket->readAll();
@@ -44,6 +46,6 @@ void MyTcpServer::slotServerRead(){
 }
 
 void MyTcpServer::slotClientDisconnected(){
-    QTcpSocket *cur_mTcpSocket = mTcpSocket[mTcpServer->socketDescriptor()];;
+    QTcpSocket *cur_mTcpSocket = (QTcpSocket *)sender();
     cur_mTcpSocket->close();
 }
