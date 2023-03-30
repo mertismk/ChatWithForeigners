@@ -1,4 +1,5 @@
 #include "mytcpserver.h"
+#include "parsing.cpp"
 #include <QDebug>
 #include <QCoreApplication>
 
@@ -38,11 +39,17 @@ void MyTcpServer::slotNewConnection(){
 
 void MyTcpServer::slotServerRead(){
     QTcpSocket *cur_mTcpSocket = (QTcpSocket *)sender();
+    QByteArray array;
+    QString msg;
     while(cur_mTcpSocket->bytesAvailable()>0)
     {
-        QByteArray array =cur_mTcpSocket->readAll();
-        cur_mTcpSocket->write(array);
+        array = cur_mTcpSocket->readAll();
+        msg = array.trimmed();
     }
+
+    std::string mssg = "auth&log&pas&";
+    QString messege = parsing(msg);
+    cur_mTcpSocket->write(messege);
 }
 
 void MyTcpServer::slotClientDisconnected(){
