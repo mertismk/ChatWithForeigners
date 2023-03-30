@@ -3,7 +3,7 @@
 
 #include <QString>
 
-std::string parsing(std::string pars);
-std::string auth(std::string auth);
+QString parsing(QString pars);
+QString auth(QString auth);
 
 #endif // PARSING_H
