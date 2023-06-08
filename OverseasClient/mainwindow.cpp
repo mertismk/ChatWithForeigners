@@ -157,7 +157,6 @@ void MainWindow::on_NickEdit_pushButton_clicked()
     } else {
         if (old_name != ui->usernameLineEdit->text()) {
             chatClient->sendMessage("new_user_name&" + old_name + "&" + ui->usernameLineEdit->text());
-            chatClient->slotReadyRead
         }
 
         ui->usernameLineEdit->setReadOnly(false);

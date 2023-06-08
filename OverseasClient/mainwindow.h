@@ -70,8 +70,6 @@ public:
 private slots:
     void slotConnected();
     void slotError(QAbstractSocket::SocketError error);
-
-public:
     void slotReadyRead();
 
 private:
