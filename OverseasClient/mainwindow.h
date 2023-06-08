@@ -48,6 +48,8 @@ private slots:
 
     void on_Chat5_pushButton_clicked();
 
+    void on_NickEdit_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     AuthorizationForm *ui_auth;
@@ -66,9 +68,11 @@ public:
     void sendMessage(const QString& message);
 
 private slots:
-    void slotReadyRead();
     void slotConnected();
     void slotError(QAbstractSocket::SocketError error);
+
+public:
+    void slotReadyRead();
 
 private:
     QTcpSocket *mTcpSocket;

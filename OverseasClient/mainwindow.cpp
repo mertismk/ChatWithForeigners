@@ -2,6 +2,9 @@
 #include "ui_mainwindow.h"
 #include "QDebug"
 
+//flags
+int flag_changeNickname = 0;
+
 ChatClient::ChatClient(QObject *parent) : QObject(parent)
 {
     mTcpSocket = new QTcpSocket(this);
@@ -140,5 +143,25 @@ void MainWindow::on_Chat4_pushButton_clicked()
 void MainWindow::on_Chat5_pushButton_clicked()
 {
     ui_chat->show();
+}
+
+
+QString old_name;
+void MainWindow::on_NickEdit_pushButton_clicked()
+{
+    if(flag_changeNickname == 1) {
+        old_name = ui->usernameLineEdit->text();
+        qDebug()<<old_name;
+        ui->usernameLineEdit->setReadOnly(true);
+        flag_changeNickname = 0;
+    } else {
+        if (old_name != ui->usernameLineEdit->text()) {
+            chatClient->sendMessage("new_user_name&" + old_name + "&" + ui->usernameLineEdit->text());
+            chatClient->slotReadyRead
+        }
+
+        ui->usernameLineEdit->setReadOnly(false);
+        flag_changeNickname = 1;
+    }
 }
 

@@ -42,7 +42,7 @@ void MyTcpServer::slotServerRead() {
         array = cur_mTcpSocket->readAll();
         string.append(array);
     }
-    string = string.left(string.length()-2);
+    string = string.left(string.length());
     qDebug()<<string;
     cur_mTcpSocket->write(fparsing(string.toUtf8()).toUtf8());
 }
