@@ -26,6 +26,16 @@ QString sending_message(QString first_user, QString second_user, QString message
     return send_message(first_user, second_user, message_text);
 }
 
+QString take_user(QString username) {
+    qDebug() << username;
+    return take_user_id(username);
+}
+
+QString take_messages(QString first_user, QString second_user) {
+    qDebug() << first_user << second_user;
+    return get_all_dialog_message(first_user, second_user);
+}
+
 QString fparsing(QByteArray message) {
     QList<QByteArray> parts = message.split('&');
     qDebug() << parts[0];
@@ -85,6 +95,27 @@ QString fparsing(QByteArray message) {
             QString translated_text = translateText(message_text, "en", "ru");
             qDebug() << translated_text;
             QString res = sending_message(first_user, second_user, message_text);
+            qDebug() << res;
+            return res;
+        }
+    } else if (parts[0] == "select_user") {
+        if (parts.length() != 2) {
+            qDebug() << "error";
+            return "error";
+        } else {
+            QString user = parts[1];
+            QString res = take_user(user);
+            qDebug() << res;
+            return res;
+        }
+    } else if (parts[0] == "take_all_messages") {
+        if (parts.length() != 3) {
+            qDebug() << "error";
+            return "error";
+        } else {
+            QString first_user = parts[1];
+            QString second_user = parts[2];
+            QString res = take_messages(first_user, second_user);
             qDebug() << res;
             return res;
         }

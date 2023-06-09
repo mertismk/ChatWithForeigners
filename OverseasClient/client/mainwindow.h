@@ -6,14 +6,13 @@
 #include <QtNetwork/QTcpSocket>
 #include <QObject>
 #include <QString>
+#include "chatclient.h"
 #include "authorizationform.h"
 #include "chat.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
-
-class ChatClient;
 
 class MainWindow : public QMainWindow
 {
@@ -52,9 +51,11 @@ private slots:
 
     void on_NickEdit_pushButton_clicked();
 
-    void on_usernameLineEdit_editingFinished();
+    void on_Search_pushButton_clicked();
 
-    void on_Exit_pushButton_clicked(bool checked);
+public slots:
+    void updateField(const QString& newData);
+    void eventInMainWindow(QString username);
 
 private:
     Ui::MainWindow *ui;
@@ -63,26 +64,4 @@ private:
     ChatClient *chatClient;
 };
 
-class ChatClient : public QObject
-{
-    Q_OBJECT
-public:
-    QString getResponse();
-
-    explicit ChatClient(QObject *parent = nullptr);
-    ~ChatClient();
-
-    void connectToServer(const QString& ipAddress, int port);
-    void sendMessage(const QString& message);
-
-private slots:
-    void slotConnected();
-    void slotError(QAbstractSocket::SocketError error);
-    void slotReadyRead();
-
-private:
-    QString response;
-
-    QTcpSocket *mTcpSocket;
-};
 #endif // MAINWINDOW_H

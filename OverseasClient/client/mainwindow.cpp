@@ -5,61 +5,9 @@
 
 //global
 QString serveranswer;
+QString USERNAME;
 //flags
 int flag_changeNickname = 0;
-
-ChatClient::ChatClient(QObject *parent) : QObject(parent)
-{
-    mTcpSocket = new QTcpSocket(this);
-    connect(mTcpSocket, &QTcpSocket::readyRead, this, &ChatClient::slotReadyRead);
-    connect(mTcpSocket, &QTcpSocket::connected, this, &ChatClient::slotConnected);
-    connect(mTcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(slotError(QAbstractSocket::SocketError)));
-}
-
-ChatClient::~ChatClient()
-{
-    mTcpSocket->close();
-}
-
-void ChatClient::connectToServer(const QString& ipAddress, int port)
-{
-    mTcpSocket->connectToHost(ipAddress, port);
-}
-
-void ChatClient::sendMessage(const QString& message)
-{
-    if (mTcpSocket->state() == QAbstractSocket::ConnectedState)
-    {
-        QByteArray data = message.toUtf8();
-        mTcpSocket->write(data);
-    }
-}
-
-void ChatClient::slotReadyRead()
-{
-    while (mTcpSocket->canReadLine())
-    {
-        QByteArray data = mTcpSocket->readLine();
-        response = QString::fromUtf8(data);
-        qDebug() << "Received message: " << response;
-    }
-}
-
-QString ChatClient::getResponse()
-{
-    return response;
-}
-
-
-void ChatClient::slotConnected()
-{
-    qDebug() << "Connected to server.";
-}
-
-void ChatClient::slotError(QAbstractSocket::SocketError error)
-{
-    qDebug() << "Socket error: " << error;
-}
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -67,10 +15,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui_chat = new Chat;
     ui_auth = new AuthorizationForm;
 
-    chatClient = new ChatClient; // Create an instance of ChatClient
+    chatClient = new ChatClient;
+    chatClient->connectToServer("127.0.0.1", 33333);
 
-    chatClient->connectToServer("127.0.0.1", 33333); // Connect to the server
-
+    connect(ui_auth, &AuthorizationForm::updateData, this, &MainWindow::updateField);
     connect(ui_auth, &AuthorizationForm::return_auth, this, &MainWindow::show);
     connect(chatClient, &ChatClient::getResponse, this, &MainWindow::updateResponse);
     ui_auth->show();
@@ -78,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 MainWindow::~MainWindow()
 {
-    delete chatClient; // Cleanup the ChatClient instance
+    delete chatClient;
     delete ui_auth;
     delete ui_chat;
     delete ui;
@@ -91,6 +39,20 @@ void MainWindow::updateResponse()
     // Обновите интерфейс с полученным ответом сервера
     // Например, можно использовать QLabel или QTextEdit для отображения ответа
     qDebug()<<response;
+}
+
+
+void MainWindow::updateField(const QString& newData)
+{
+    ui->usernameLineEdit->setText(newData);
+    USERNAME = newData;
+}
+
+
+void MainWindow::eventInMainWindow(QString username)
+{
+    QString dataFromMainWindow = username;
+    ui_chat->loadDataFromMainWindow(dataFromMainWindow);
 }
 
 
@@ -138,10 +100,6 @@ void MainWindow::on_SpLang_action_triggered()
 
 void MainWindow::on_Chat1_pushButton_clicked()
 {
-    chatClient->sendMessage("login&user1&pass");
-    auto aaa = chatClient->getResponse();
-    aaa = aaa.left(aaa.length() - 1);
-    ui->Chat1_pushButton->setText(aaa);
     ui_chat->show();
 }
 
@@ -170,22 +128,22 @@ void MainWindow::on_Chat5_pushButton_clicked()
 }
 
 
-QString old_name;
 void MainWindow::on_NickEdit_pushButton_clicked()
 {
-    if(flag_changeNickname == 1) {
-        old_name = ui->usernameLineEdit->text();
-        qDebug()<<old_name;
 
-        if (old_name != ui->usernameLineEdit->text()) {
-            chatClient->sendMessage("new_user_name&" + old_name + "&" + ui->usernameLineEdit->text());
-        }
+}
 
-        ui->usernameLineEdit->setReadOnly(true);
-        flag_changeNickname = 0;
-    } else {
-        ui->usernameLineEdit->setReadOnly(false);
-        flag_changeNickname = 1;
+
+void MainWindow::on_Search_pushButton_clicked()
+{
+    QString user_dialog = ui->Search_lineEdit->text();
+    chatClient->sendMessage("select_user&" + user_dialog);
+    auto aaa = chatClient->getResponse();
+    aaa = aaa.left(aaa.length() - 1);
+    if (aaa != "" && aaa != "exist&0")
+    {
+        eventInMainWindow(user_dialog + "&" + USERNAME);
+        ui_chat->show();
     }
 }
 

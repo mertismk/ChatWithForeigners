@@ -57,4 +57,7 @@ QString find_user_for_auth(QString login, QString password);
 QString change_username(QString old_username, QString new_username);
 QString create_new_dialog(QString first_user, QString second_user);
 QString send_message(QString sender, QString getter, QString message_text);
+QString take_user_id(QString username);
+QString get_all_dialog_message(QString first_user, QString second_user);
+
 #endif // SINGLETONDB_H

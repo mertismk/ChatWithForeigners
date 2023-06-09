@@ -164,3 +164,42 @@ QString send_message(QString sender, QString getter, QString message_text) {
     else
         return "message&send&not&complete";
 }
+
+
+QString take_user_id(QString username) {
+    auto user_find = SingletonDB::getInstance().sendQuery("SELECT user_id FROM Users WHERE username = '" + username + "';");
+
+    if( user_find != "")
+        return user_find.left(user_find.length()-2);
+    else
+        return "exist&0";
+}
+
+QString get_all_dialog_message(QString first_user, QString second_user)
+{
+    // определение ID отправителя
+    auto first_user_id = SingletonDB::getInstance().sendQuery(
+                "SELECT user_id FROM Users WHERE username = '" + first_user + "';"
+                );
+    first_user_id = first_user_id.left(first_user_id.length()-2);
+
+    // определение ID получателя
+    auto second_user_id = SingletonDB::getInstance().sendQuery(
+                "SELECT user_id FROM Users WHERE username = '" + second_user + "';"
+                );
+    second_user_id = second_user_id.left(second_user_id.length()-2);
+
+    // определение ID диалога
+    auto dialog_id = SingletonDB::getInstance().sendQuery(
+                "SELECT MAX(dialog_id) FROM Dialog WHERE (dialog_one_user_id = " + first_user_id + " AND dialog_two_user_id = " + second_user_id + ") OR (dialog_one_user_id = " + second_user_id + " AND dialog_two_user_id = " + first_user_id + ");"
+                );
+    dialog_id = dialog_id.left(dialog_id.length()-2);
+
+    // проверка отправки сообщения
+    auto messages = SingletonDB::getInstance().sendQuery("SELECT messages_id, from_user_id, message_text FROM Messages WHERE (from_user_id = " + first_user_id + " AND to_user_id = " + second_user_id + ") OR (from_user_id = " + second_user_id + " AND to_user_id = " + first_user_id + ") AND dialog_id = " + dialog_id + ";");
+    messages = messages.left(messages.length()-2);
+    if (messages != "")
+        return messages;
+    else
+        return "message&send&0";
+}

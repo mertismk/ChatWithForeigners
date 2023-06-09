@@ -12,12 +12,14 @@ QT += network
 SOURCES += \
     authorizationform.cpp \
     chat.cpp \
+    chatclient.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     authorizationform.h \
     chat.h \
+    chatclient.h \
     mainwindow.h
 
 FORMS += \

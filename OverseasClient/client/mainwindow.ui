@@ -53,7 +53,7 @@
      <item>
       <widget class="QPushButton" name="Chat1_pushButton">
        <property name="text">
-        <string>Имя пользователя</string>
+        <string/>
        </property>
       </widget>
      </item>
