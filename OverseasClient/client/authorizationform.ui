@@ -91,7 +91,7 @@
       <item>
        <widget class="QLabel" name="email_label">
         <property name="text">
-         <string>Почта</string>
+         <string>Имя пользователя</string>
         </property>
        </widget>
       </item>

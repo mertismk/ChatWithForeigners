@@ -2,6 +2,9 @@
 #include "ui_mainwindow.h"
 #include "QDebug"
 
+
+//global
+QString serveranswer;
 //flags
 int flag_changeNickname = 0;
 
@@ -37,9 +40,16 @@ void ChatClient::slotReadyRead()
     while (mTcpSocket->canReadLine())
     {
         QByteArray data = mTcpSocket->readLine();
-        qDebug() << "Received message: " << data;
+        response = QString::fromUtf8(data);
+        qDebug() << "Received message: " << response;
     }
 }
+
+QString ChatClient::getResponse()
+{
+    return response;
+}
+
 
 void ChatClient::slotConnected()
 {
@@ -62,6 +72,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     chatClient->connectToServer("127.0.0.1", 33333); // Connect to the server
 
     connect(ui_auth, &AuthorizationForm::return_auth, this, &MainWindow::show);
+    connect(chatClient, &ChatClient::getResponse, this, &MainWindow::updateResponse);
     ui_auth->show();
 }
 
@@ -71,6 +82,15 @@ MainWindow::~MainWindow()
     delete ui_auth;
     delete ui_chat;
     delete ui;
+}
+
+
+void MainWindow::updateResponse()
+{
+    QString response = chatClient->getResponse();
+    // Обновите интерфейс с полученным ответом сервера
+    // Например, можно использовать QLabel или QTextEdit для отображения ответа
+    qDebug()<<response;
 }
 
 
@@ -118,6 +138,8 @@ void MainWindow::on_SpLang_action_triggered()
 
 void MainWindow::on_Chat1_pushButton_clicked()
 {
+    chatClient->sendMessage("login&user1&pass");
+    ui->Chat1_pushButton->setText(chatClient->getResponse());
     ui_chat->show();
 }
 
@@ -152,13 +174,14 @@ void MainWindow::on_NickEdit_pushButton_clicked()
     if(flag_changeNickname == 1) {
         old_name = ui->usernameLineEdit->text();
         qDebug()<<old_name;
-        ui->usernameLineEdit->setReadOnly(true);
-        flag_changeNickname = 0;
-    } else {
+
         if (old_name != ui->usernameLineEdit->text()) {
             chatClient->sendMessage("new_user_name&" + old_name + "&" + ui->usernameLineEdit->text());
         }
 
+        ui->usernameLineEdit->setReadOnly(true);
+        flag_changeNickname = 0;
+    } else {
         ui->usernameLineEdit->setReadOnly(false);
         flag_changeNickname = 1;
     }

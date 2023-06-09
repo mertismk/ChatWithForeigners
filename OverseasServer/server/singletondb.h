@@ -28,7 +28,7 @@ private:
 protected:
     SingletonDB() {
         m_database = QSqlDatabase::addDatabase("QSQLITE");
-        m_database.setDatabaseName("../database/OSdb.db");
+        m_database.setDatabaseName("../OSdb.db");
         if (!m_database.open())
             qDebug() << m_database.lastError();
     }

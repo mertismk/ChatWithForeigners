@@ -24,6 +24,8 @@ public:
     ~MainWindow();
 
 private slots:
+    void updateResponse();
+
     void on_Exit_pushButton_clicked();
 
     void on_RusLang_action_triggered();
@@ -50,6 +52,10 @@ private slots:
 
     void on_NickEdit_pushButton_clicked();
 
+    void on_usernameLineEdit_editingFinished();
+
+    void on_Exit_pushButton_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
     AuthorizationForm *ui_auth;
@@ -61,6 +67,8 @@ class ChatClient : public QObject
 {
     Q_OBJECT
 public:
+    QString getResponse();
+
     explicit ChatClient(QObject *parent = nullptr);
     ~ChatClient();
 
@@ -73,6 +81,8 @@ private slots:
     void slotReadyRead();
 
 private:
+    QString response;
+
     QTcpSocket *mTcpSocket;
 };
 #endif // MAINWINDOW_H

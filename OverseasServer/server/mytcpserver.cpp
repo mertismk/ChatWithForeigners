@@ -23,7 +23,7 @@ void MyTcpServer::slotNewConnection() {
     if (server_status == 1) {
         QTcpSocket *cur_mTcpSocket;
         cur_mTcpSocket = mTcpServer->nextPendingConnection();
-        cur_mTcpSocket->write("Hello, World!!! I am echo server!\r\n");
+        cur_mTcpSocket->write("Hello, World!!! I am echo server!");
         connect(cur_mTcpSocket, &QTcpSocket::readyRead, this,
                 &MyTcpServer::slotServerRead);
         connect(cur_mTcpSocket, &QTcpSocket::disconnected, this,
@@ -42,7 +42,7 @@ void MyTcpServer::slotServerRead() {
         array = cur_mTcpSocket->readAll();
         string.append(array);
     }
-    string = string.left(string.length());
+    string = string.left(string.length()-2);
     qDebug()<<string;
     cur_mTcpSocket->write(fparsing(string.toUtf8()).toUtf8());
 }
