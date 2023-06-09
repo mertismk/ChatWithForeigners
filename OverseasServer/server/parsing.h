@@ -3,6 +3,7 @@
 #include <QByteArray>
 #include <QDebug>
 #include "singletondb.h"
+#include "translate.h"
 
 QString login(QByteArray username, QByteArray password);
 QString registration(QByteArray username, QByteArray password);

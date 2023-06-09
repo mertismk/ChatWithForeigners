@@ -82,11 +82,13 @@ QString fparsing(QByteArray message) {
             QString first_user = parts[1];
             QString second_user = parts[2];
             QString message_text = parts[3];
+            QString translated_text = translateText(message_text, "en", "ru");
+            qDebug() << translated_text;
             QString res = sending_message(first_user, second_user, message_text);
             qDebug() << res;
             return res;
         }
     }
-    else return "erre";
-    return "erre";
+    else return "";
+    return "";
 }
