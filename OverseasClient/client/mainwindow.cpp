@@ -139,7 +139,9 @@ void MainWindow::on_SpLang_action_triggered()
 void MainWindow::on_Chat1_pushButton_clicked()
 {
     chatClient->sendMessage("login&user1&pass");
-    ui->Chat1_pushButton->setText(chatClient->getResponse());
+    auto aaa = chatClient->getResponse();
+    aaa = aaa.left(aaa.length() - 1);
+    ui->Chat1_pushButton->setText(aaa);
     ui_chat->show();
 }
 
