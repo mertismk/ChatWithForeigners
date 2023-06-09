@@ -19,8 +19,15 @@ AuthorizationForm::~AuthorizationForm()
 
 void AuthorizationForm::on_signIn_pushButton_clicked()
 {
-    emit return_auth();
-    hide();
+    QString login = ui->login_lineEdit->text();
+    QString password = ui->password_lineEdit->text();
+    if (login == "admin" && password == "admin") {
+        QMessageBox::information(this, "Ура", "Вы успешно авторизовались");
+        emit return_auth();
+        hide();
+    } else {
+        QMessageBox::critical(this, "Ошибка", "Логин или пароль неверны, попробуйте снова");
+    }
 }
 
 

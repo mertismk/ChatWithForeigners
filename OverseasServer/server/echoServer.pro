@@ -22,7 +22,8 @@ SOURCES += \
         main.cpp \
     mytcpserver.cpp \
     parsing.cpp \
-    singletondb.cpp
+    singletondb.cpp \
+    translate.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -32,4 +33,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     mytcpserver.h \
     parsing.h \
-    singletondb.h
+    singletondb.h \
+    translate.h

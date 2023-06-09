@@ -78,9 +78,9 @@ QString change_username(QString old_username, QString new_username) {
 
     // проверка изменения имени
     if (SingletonDB::getInstance().sendQuery("SELECT user_id FROM Users WHERE username = '" + new_username + "';") != "")
-        return "username&change&complite";
+        return "username&change&complete";
     else
-        return "username&change&not&complite";
+        return "username&change&not&complete";
 }
 
 // создания нового чата +
@@ -119,9 +119,9 @@ QString create_new_dialog(QString first_user, QString second_user) {
                 );
     dialog_id = dialog_id.left(dialog_id.length()-2);
     if (dialog_id == new_dialog_id)
-        return "dialog&create&complite";
+        return "dialog&create&complete";
     else
-        return "dialog&create&not&complite";
+        return "dialog&create&not&complete";
 }
 
 // отправка сообщения +
@@ -160,7 +160,7 @@ QString send_message(QString sender, QString getter, QString message_text) {
     auto message_id = SingletonDB::getInstance().sendQuery("SELECT MAX(messages_id) FROM Messages WHERE from_user_id = " + sender_id + " AND to_user_id = " + getter_id + ";");
     message_id = message_id.left(message_id.length()-2);
     if (message_id == new_message_id)
-        return "message&send&complite";
+        return "message&send&complete";
     else
-        return "message&send&not&complite";
+        return "message&send&not&complete";
 }
