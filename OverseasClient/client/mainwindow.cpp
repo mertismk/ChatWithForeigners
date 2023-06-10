@@ -4,16 +4,24 @@
 
 
 //global
-QString serveranswer;
-QString USERNAME;
+QString USERNAME_MAINWINDOW;
+
 //flags
 int flag_changeNickname = 0;
+
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     ui_chat = new Chat;
     ui_auth = new AuthorizationForm;
+
+
+    ui->Chat1_pushButton->setVisible(0);
+    ui->Chat2_pushButton->setVisible(0);
+    ui->Chat3_pushButton->setVisible(0);
+    ui->Chat4_pushButton->setVisible(0);
+    ui->Chat5_pushButton->setVisible(0);
 
     chatClient = new ChatClient;
     chatClient->connectToServer("127.0.0.1", 33333);
@@ -33,26 +41,25 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::updateResponse()
+QString MainWindow::updateResponse()
 {
     QString response = chatClient->getResponse();
     // Обновите интерфейс с полученным ответом сервера
     // Например, можно использовать QLabel или QTextEdit для отображения ответа
-    qDebug()<<response;
+    return response;
 }
 
 
 void MainWindow::updateField(const QString& newData)
 {
     ui->usernameLineEdit->setText(newData);
-    USERNAME = newData;
+    USERNAME_MAINWINDOW = newData;
 }
 
 
-void MainWindow::eventInMainWindow(QString username)
+void MainWindow::eventInMainWindow(QString username, QString dialog_username)
 {
-    QString dataFromMainWindow = username;
-    ui_chat->loadDataFromMainWindow(dataFromMainWindow);
+    ui_chat->loadDataFromMainWindow(dialog_username, username);
 }
 
 
@@ -100,31 +107,31 @@ void MainWindow::on_SpLang_action_triggered()
 
 void MainWindow::on_Chat1_pushButton_clicked()
 {
-    ui_chat->show();
+    //ui_chat->show();
 }
 
 
 void MainWindow::on_Chat2_pushButton_clicked()
 {
-    ui_chat->show();
+    //ui_chat->show();
 }
 
 
 void MainWindow::on_Chat3_pushButton_clicked()
 {
-    ui_chat->show();
+    //ui_chat->show();
 }
 
 
 void MainWindow::on_Chat4_pushButton_clicked()
 {
-    ui_chat->show();
+    //ui_chat->show();
 }
 
 
 void MainWindow::on_Chat5_pushButton_clicked()
 {
-    ui_chat->show();
+   // ui_chat->show();
 }
 
 
@@ -137,12 +144,13 @@ void MainWindow::on_NickEdit_pushButton_clicked()
 void MainWindow::on_Search_pushButton_clicked()
 {
     QString user_dialog = ui->Search_lineEdit->text();
-    chatClient->sendMessage("select_user&" + user_dialog);
-    auto aaa = chatClient->getResponse();
-    aaa = aaa.left(aaa.length() - 1);
+    qDebug()<<user_dialog;
+    chatClient->sendMessage("select_user&" + user_dialog + "\n");
+    QString aaa = chatClient->getResponse().trimmed();
+    qDebug()<<aaa;
     if (aaa != "" && aaa != "exist&0")
     {
-        eventInMainWindow(user_dialog + "&" + USERNAME);
+        eventInMainWindow(USERNAME_MAINWINDOW, user_dialog);
         ui_chat->show();
     }
 }

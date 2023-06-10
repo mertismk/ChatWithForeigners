@@ -52,6 +52,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="Chat1_pushButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -82,6 +85,13 @@
       <widget class="QPushButton" name="Chat5_pushButton">
        <property name="text">
         <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Все пользователи, с которыми есть диалог:</string>
        </property>
       </widget>
      </item>

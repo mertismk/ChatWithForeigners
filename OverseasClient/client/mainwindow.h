@@ -23,7 +23,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void updateResponse();
+    QString updateResponse();
 
     void on_Exit_pushButton_clicked();
 
@@ -55,7 +55,7 @@ private slots:
 
 public slots:
     void updateField(const QString& newData);
-    void eventInMainWindow(QString username);
+    void eventInMainWindow(QString username, QString dialog_username);
 
 private:
     Ui::MainWindow *ui;

@@ -1,9 +1,6 @@
 #include "authorizationform.h"
 #include "ui_authorizationform.h"
 
-//username
-QString USERNAME;
-
 //flags
 int FLAG = 0;
 
@@ -18,7 +15,11 @@ AuthorizationForm::AuthorizationForm(QWidget *parent) :
 
     chatClient = new ChatClient;
     chatClient->connectToServer("127.0.0.1", 33333);
+    auto aaa = chatClient->getResponse();
+    aaa = aaa.trimmed();
+    ui->Title_label->setText(aaa);
 }
+
 
 AuthorizationForm::~AuthorizationForm()
 {
@@ -26,24 +27,17 @@ AuthorizationForm::~AuthorizationForm()
     delete chatClient;
 }
 
-void AuthorizationForm::usefulFunc()
-{
-    chatClient->sendMessage("login&user1&user1");
-    auto aaa = chatClient->getResponse();
-    aaa = aaa.left(aaa.length() - 1);
-}
 
 void AuthorizationForm::on_signIn_pushButton_clicked()
 {
     QString login = ui->login_lineEdit->text();
     QString password = ui->password_lineEdit->text();
-    chatClient->sendMessage("login&" + login + "&" + password);
+    chatClient->sendMessage("login&" + login + "&" + password + "\n");
     auto aaa = chatClient->getResponse();
-    aaa = aaa.left(aaa.length() - 1);
-    USERNAME = aaa;
+    aaa = aaa.left(aaa.length());
     if (aaa != "auth&0" && aaa != "") {
-        QMessageBox::information(this, "Ура", "Вы успешно авторизовались, " + USERNAME);
-        emit updateData(USERNAME);
+        QMessageBox::information(this, "Ура", "Вы успешно авторизовались, " + aaa);
+        emit updateData(aaa);
         emit return_auth();
         hide();
     } else {

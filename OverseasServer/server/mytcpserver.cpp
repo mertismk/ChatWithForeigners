@@ -34,16 +34,13 @@ void MyTcpServer::slotNewConnection() {
 
 void MyTcpServer::slotServerRead() {
     // QTcpSocket *cur_mTcpSocket = mTcpSocket[mTcpServer->socketDescriptor()];
-    QTcpSocket *cur_mTcpSocket = (QTcpSocket *)sender();
-    QByteArray array;
-    QString string;
-    while (cur_mTcpSocket->bytesAvailable() > 0) {
-        array = cur_mTcpSocket->readAll();
-        string.append(array);
+    QTcpSocket *cur_mTcpSocket = qobject_cast<QTcpSocket *>(sender());
+
+    if (cur_mTcpSocket->canReadLine()) {
+        QString string = cur_mTcpSocket->readLine().trimmed();
+        qDebug() << string;
+        cur_mTcpSocket->write(fparsing(string.toUtf8()).toUtf8() + "\n");
     }
-    string = string.left(string.length());
-    qDebug()<<string;
-    cur_mTcpSocket->write(fparsing(string.toUtf8()).toUtf8() + "\n");
 }
 
 void MyTcpServer::slotClientDisconnected() {

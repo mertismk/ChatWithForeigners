@@ -29,11 +29,9 @@ void ChatClient::sendMessage(const QString& message)
 
 void ChatClient::slotReadyRead()
 {
-    while (mTcpSocket->canReadLine())
-    {
-        QByteArray data = mTcpSocket->readLine();
-        response = QString::fromUtf8(data);
-        qDebug() << "Received message: " << response;
+    if (mTcpSocket->canReadLine()) {
+        QString data = mTcpSocket->readLine();
+        response = data.trimmed();
     }
 }
 

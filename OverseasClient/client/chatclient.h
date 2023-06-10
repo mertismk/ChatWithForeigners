@@ -10,7 +10,6 @@ class ChatClient : public QObject
 {
     Q_OBJECT
 public:
-    QString getResponse();
 
     explicit ChatClient(QObject *parent = nullptr);
     ~ChatClient();
@@ -22,6 +21,9 @@ private slots:
     void slotConnected();
     void slotError(QAbstractSocket::SocketError error);
     void slotReadyRead();
+
+public:
+    QString getResponse();
 
 private:
     QString response;

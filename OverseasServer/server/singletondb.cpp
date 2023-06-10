@@ -166,6 +166,7 @@ QString send_message(QString sender, QString getter, QString message_text) {
 }
 
 
+// получение ID юзера для открытия чата с ним
 QString take_user_id(QString username) {
     auto user_find = SingletonDB::getInstance().sendQuery("SELECT user_id FROM Users WHERE username = '" + username + "';");
 
@@ -175,6 +176,8 @@ QString take_user_id(QString username) {
         return "exist&0";
 }
 
+
+// получение всех сообщений в диалоге
 QString get_all_dialog_message(QString first_user, QString second_user)
 {
     // определение ID отправителя
@@ -196,7 +199,7 @@ QString get_all_dialog_message(QString first_user, QString second_user)
     dialog_id = dialog_id.left(dialog_id.length()-2);
 
     // проверка отправки сообщения
-    auto messages = SingletonDB::getInstance().sendQuery("SELECT messages_id, from_user_id, message_text FROM Messages WHERE (from_user_id = " + first_user_id + " AND to_user_id = " + second_user_id + ") OR (from_user_id = " + second_user_id + " AND to_user_id = " + first_user_id + ") AND dialog_id = " + dialog_id + ";");
+    auto messages = SingletonDB::getInstance().sendQuery("SELECT from_user_id, message_text FROM Messages WHERE (from_user_id = " + first_user_id + " AND to_user_id = " + second_user_id + ") OR (from_user_id = " + second_user_id + " AND to_user_id = " + first_user_id + ") AND dialog_id = " + dialog_id + ";");
     messages = messages.left(messages.length()-2);
     if (messages != "")
         return messages;
