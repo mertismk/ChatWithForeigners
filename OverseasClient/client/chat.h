@@ -17,7 +17,7 @@ public:
     explicit Chat(QWidget *parent = nullptr);
     ~Chat();
     void loadDataFromMainWindow(const QString& data, const QString& data2);
-    QString loadDialog(QString client_name, QString dialog_user);
+    void loadDialog(QString client_name, QString dialog_user);
 
 private slots:
     void on_Chat_pushButton_clicked();

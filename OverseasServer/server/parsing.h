@@ -11,6 +11,7 @@ QString change_name_pars(QString old_name, QString new_name);
 QString create_dialog(QString first_user, QString second_user);
 QString sending_message(QString first_user, QString second_user, QString message_text);
 QString take_user(QString username);
+QString take_username(QString user_id);
 QString fparsing(QByteArray message);
 
 #endif  // PARSING_H

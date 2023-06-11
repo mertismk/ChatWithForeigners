@@ -36,6 +36,7 @@ MainWindow::~MainWindow()
 {
     delete chatClient;
     delete ui_auth;
+    ui_chat->close();
     delete ui_chat;
     delete ui;
 }
@@ -65,6 +66,7 @@ void MainWindow::eventInMainWindow(QString username, QString dialog_username)
 
 void MainWindow::on_Exit_pushButton_clicked()
 {
+    ui_chat->close();
     this->close();
 }
 

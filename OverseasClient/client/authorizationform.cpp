@@ -15,9 +15,6 @@ AuthorizationForm::AuthorizationForm(QWidget *parent) :
 
     chatClient = new ChatClient;
     chatClient->connectToServer("127.0.0.1", 33333);
-    auto aaa = chatClient->getResponse();
-    aaa = aaa.trimmed();
-    ui->Title_label->setText(aaa);
 }
 
 
@@ -49,24 +46,53 @@ void AuthorizationForm::on_signIn_pushButton_clicked()
 void AuthorizationForm::on_signUp_pushButton_clicked()
 {
     if (FLAG == 0){
+        ui->login_lineEdit->setText("");
+        ui->password_lineEdit->setText("");
         ui->email_label->setVisible(1);
         ui->email_lineEdit->setVisible(1);
         ui->exit_pushButton->setVisible(1);
         ui->signIn_pushButton->setVisible(0);
         FLAG = 1;
-    }
-    else{
-        ui->email_label->setVisible(0);
-        ui->email_lineEdit->setVisible(0);
-        ui->exit_pushButton->setVisible(0);
-        ui->signIn_pushButton->setVisible(1);
-        FLAG = 0;
+    } else {
+        QString login = ui->login_lineEdit->text().trimmed();
+        QString password = ui->password_lineEdit->text().trimmed();
+        QString username = ui->email_lineEdit->text().trimmed();
+        qDebug()<<login<<password<<username;
+        if (login != "" && password != "" && username != "")
+        {
+            qDebug()<<"ezsrxtcfgvubihnjkpl";
+            chatClient->sendMessage("register&" + login + "&" + password + "&" + username + "&English\n");
+            auto aaa = chatClient->getResponse();
+            qDebug()<<aaa;
+            if (aaa == "reg&1") {
+                QMessageBox::information(this, "Ура", "Вы успешно pfhtubcnhbhjdfkbcm, " + aaa);
+                ui->email_lineEdit->setText("");
+                ui->email_label->setVisible(0);
+                ui->email_lineEdit->setVisible(0);
+                ui->exit_pushButton->setVisible(0);
+                ui->signIn_pushButton->setVisible(1);
+                FLAG = 0;
+            } else {
+                QMessageBox::critical(this, "Ошибка", "Неверно введены данные при регистрации или такой пользователь уже существует");
+                ui->login_lineEdit->setText("");
+                ui->password_lineEdit->setText("");
+                ui->email_lineEdit->setText("");
+            }
+        } else {
+            QMessageBox::critical(this, "Ошибка", "Неверно введены данные при регистрации (Поля не могут оставаться пустыми)");
+            ui->login_lineEdit->setText("");
+            ui->password_lineEdit->setText("");
+            ui->email_lineEdit->setText("");
+        }
     }
 }
 
 
 void AuthorizationForm::on_exit_pushButton_clicked()
 {
+    ui->login_lineEdit->setText("");
+    ui->password_lineEdit->setText("");
+    ui->email_lineEdit->setText("");
     ui->email_label->setVisible(0);
     ui->email_lineEdit->setVisible(0);
     ui->exit_pushButton->setVisible(0);

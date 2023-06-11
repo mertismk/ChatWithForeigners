@@ -52,6 +52,7 @@ QString add_new_user(QString login, QString password, QString username, QString 
         return "reg&0";
 }
 
+
 // авторизация +
 QString find_user_for_auth(QString login, QString password) {
     auto user_exist = SingletonDB::getInstance().sendQuery("SELECT username FROM Users WHERE login = '" + login + "' AND password = '" + password + "';");
@@ -61,6 +62,7 @@ QString find_user_for_auth(QString login, QString password) {
     else
         return "auth&0";
 }
+
 
 // изменение имени пользователя +
 QString change_username(QString old_username, QString new_username) {
@@ -82,6 +84,7 @@ QString change_username(QString old_username, QString new_username) {
     else
         return "username&change&not&complete";
 }
+
 
 // создания нового чата +
 QString create_new_dialog(QString first_user, QString second_user) {
@@ -123,6 +126,7 @@ QString create_new_dialog(QString first_user, QString second_user) {
     else
         return "dialog&create&not&complete";
 }
+
 
 // отправка сообщения +
 QString send_message(QString sender, QString getter, QString message_text) {
@@ -166,7 +170,7 @@ QString send_message(QString sender, QString getter, QString message_text) {
 }
 
 
-// получение ID юзера для открытия чата с ним
+// получение ID юзера для открытия чата с ним +
 QString take_user_id(QString username) {
     auto user_find = SingletonDB::getInstance().sendQuery("SELECT user_id FROM Users WHERE username = '" + username + "';");
 
@@ -177,7 +181,7 @@ QString take_user_id(QString username) {
 }
 
 
-// получение всех сообщений в диалоге
+// получение всех сообщений в диалоге +
 QString get_all_dialog_message(QString first_user, QString second_user)
 {
     // определение ID отправителя
@@ -198,11 +202,32 @@ QString get_all_dialog_message(QString first_user, QString second_user)
                 );
     dialog_id = dialog_id.left(dialog_id.length()-2);
 
-    // проверка отправки сообщения
+    // получение всех сообщений в диалоге
     auto messages = SingletonDB::getInstance().sendQuery("SELECT from_user_id, message_text FROM Messages WHERE (from_user_id = " + first_user_id + " AND to_user_id = " + second_user_id + ") OR (from_user_id = " + second_user_id + " AND to_user_id = " + first_user_id + ") AND dialog_id = " + dialog_id + ";");
-    messages = messages.left(messages.length()-2);
+    messages = messages.left(messages.length()-1);
+
+    QList<QString> aaa = messages.split("\n");
+    int n = aaa.indexOf(aaa.last()) + 1;
+    QString messages_full;
+    for (int i = 0; i < n; i++)
+    {
+        QList<QString> parts = aaa[i].split("&");
+        messages_full = messages_full + get_username(parts[0]) + "&" + parts[1] + "&";
+    }
+    messages_full = messages_full.left(messages_full.length()-1);
+
     if (messages != "")
-        return messages;
+        return messages_full;
     else
         return "message&send&0";
+}
+
+
+// получение имени пользователя по его ID
+QString get_username(QString user_id) {
+    auto username = SingletonDB::getInstance().sendQuery("SELECT username FROM Users WHERE user_id = '" + user_id + "';");
+
+    if( username != "")
+        return username.left(username.length()-2);
+    return user_id;
 }

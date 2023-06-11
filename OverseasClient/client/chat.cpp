@@ -31,27 +31,40 @@ void Chat::loadDataFromMainWindow(const QString& data, const QString& data2)
     DIALOGUSERNAME = part1;
     qDebug()<<CLIENTUSERNAME<<DIALOGUSERNAME;
 
-    QString aaa = loadDialog(CLIENTUSERNAME, DIALOGUSERNAME);
-    ui->Chat_textBrowser->setText(aaa);
-
+    loadDialog(CLIENTUSERNAME, DIALOGUSERNAME);
 }
 
 
-QString Chat::loadDialog(QString client_name, QString dialog_user)
+void Chat::loadDialog(QString client_name, QString dialog_user)
 {
-    chatClient->sendMessage("take_all_messages&" + client_name + "&" + dialog_user);
-    QString aaa = chatClient->getResponse();
-    qDebug()<<aaa;
-    return aaa;
+    chatClient->sendMessage("take_all_messages&" + client_name + "&" + dialog_user + "\n");
+    QString messages_string = chatClient->getResponse();
+    messages_string = messages_string.trimmed();
+    QList<QString> all_mes = messages_string.split("&");
+    int n = all_mes.indexOf(all_mes.last()) + 1;
+
+    QString result;
+    for (int i = 0; i < n; i++)
+    {
+        result += all_mes[i] + "\n";
+        if (i % 2 == 1) result += "\n";
+    }
+    result = result.left(result.length() - 1);
+
+    ui->Chat_textBrowser->setText(result);
 }
 
 
 void Chat::on_Chat_pushButton_clicked()
 {
     QString message = ui->Chat_lineEdit->text().trimmed();
+    qDebug()<<message;
     if (message != "" && message != " ")
     {
-        chatClient->sendMessage("new_message&" + CLIENTUSERNAME + "&" + DIALOGUSERNAME + "&" + message);
+        chatClient->sendMessage("new_message&" + CLIENTUSERNAME + "&" + DIALOGUSERNAME + "&" + message + "\n");
+        QString nothing = chatClient->getResponse();
+        ui->Chat_lineEdit->setText("");
+        loadDialog(CLIENTUSERNAME, DIALOGUSERNAME);
     }
 }
 

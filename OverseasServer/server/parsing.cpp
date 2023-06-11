@@ -36,6 +36,12 @@ QString take_messages(QString first_user, QString second_user) {
     return get_all_dialog_message(first_user, second_user);
 }
 
+QString take_username(QString user_id) {
+    qDebug() << user_id;
+    return get_username(user_id);
+}
+
+
 QString fparsing(QByteArray message) {
     QList<QByteArray> parts = message.split('&');
     qDebug() << parts[0];
@@ -62,7 +68,7 @@ QString fparsing(QByteArray message) {
             qDebug() << res;
             return res;
         }
-    } else if (parts[0] == "new_user_name") {
+    } else if (parts[0] == "new_username") {
         if (parts.length() != 3) {
             qDebug() << "error";
             return "error";
@@ -116,6 +122,16 @@ QString fparsing(QByteArray message) {
             QString first_user = parts[1];
             QString second_user = parts[2];
             QString res = take_messages(first_user, second_user);
+            qDebug() << res;
+            return res;
+        }
+    } else if (parts[0] == "username") {
+        if (parts.length() != 3) {
+            qDebug() << "error";
+            return "error";
+        } else {
+            QString user_id = parts[1];
+            QString res = take_username(user_id);
             qDebug() << res;
             return res;
         }
