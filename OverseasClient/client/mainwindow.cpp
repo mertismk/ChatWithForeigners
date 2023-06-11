@@ -55,6 +55,7 @@ void MainWindow::updateField(const QString& newData)
 {
     ui->usernameLineEdit->setText(newData);
     USERNAME_MAINWINDOW = newData;
+    // updateDialogList();
 }
 
 
@@ -157,3 +158,31 @@ void MainWindow::on_Search_pushButton_clicked()
     }
 }
 
+
+void MainWindow::on_dialog_pushButton_clicked()
+{
+    chatClient->sendMessage("new_dialog&" + USERNAME_MAINWINDOW + "&" + ui->dialog_lineEdit->text() + "\n");
+    QString aaa = chatClient->getResponse();
+    if (aaa == "dialog&exist")
+    {
+        ui->dialogMessageLabel->setText("Чат с данным пользователем существует");
+        ui->dialog_lineEdit->setText("");
+    } else if (aaa == "dialog&create&complete") {
+        ui->dialogMessageLabel->setText("Чат успешно создан");
+        ui->dialog_lineEdit->setText("");
+    } else {
+        ui->dialogMessageLabel->setText("Чат не создан, проверьте корректность\nвведённого имени пользователя");
+        ui->dialog_lineEdit->setText("");
+    }
+    // updateDialogList();
+}
+
+/*
+void MainWindow::updateDialogList()
+{
+    chatClient->sendMessage("take_all_dialogs&" + USERNAME_MAINWINDOW + "\n");
+    QString aaa = chatClient->getResponse();
+    QString inf = ui->label->text();
+    ui->label->setText(aaa);
+}
+*/

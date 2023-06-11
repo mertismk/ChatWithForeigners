@@ -12,6 +12,8 @@ QString create_dialog(QString first_user, QString second_user);
 QString sending_message(QString first_user, QString second_user, QString message_text);
 QString take_user(QString username);
 QString take_username(QString user_id);
+QString take_dialog_users(QString username);
+
 QString fparsing(QByteArray message);
 
 #endif  // PARSING_H

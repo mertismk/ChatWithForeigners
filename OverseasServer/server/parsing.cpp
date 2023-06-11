@@ -41,6 +41,11 @@ QString take_username(QString user_id) {
     return get_username(user_id);
 }
 
+QString take_dialog_users(QString username) {
+    qDebug() << username;
+    return "";//get_dialog_users(username);
+}
+
 
 QString fparsing(QByteArray message) {
     QList<QByteArray> parts = message.split('&');
@@ -126,7 +131,7 @@ QString fparsing(QByteArray message) {
             return res;
         }
     } else if (parts[0] == "username") {
-        if (parts.length() != 3) {
+        if (parts.length() != 2) {
             qDebug() << "error";
             return "error";
         } else {
@@ -135,7 +140,16 @@ QString fparsing(QByteArray message) {
             qDebug() << res;
             return res;
         }
-    }
-    else return "";
+    } else if (parts[0] == "take_all_dialogs") {
+        if (parts.length() != 2) {
+            qDebug() << "error";
+            return "error";
+        } else {
+            QString username = parts[1];
+            //QString res = take_dialog_users(username);
+            //qDebug() << res;
+            return "";
+        }
+    } else return "";
     return "";
 }

@@ -204,26 +204,27 @@ QString get_all_dialog_message(QString first_user, QString second_user)
 
     // получение всех сообщений в диалоге
     auto messages = SingletonDB::getInstance().sendQuery("SELECT from_user_id, message_text FROM Messages WHERE (from_user_id = " + first_user_id + " AND to_user_id = " + second_user_id + ") OR (from_user_id = " + second_user_id + " AND to_user_id = " + first_user_id + ") AND dialog_id = " + dialog_id + ";");
-    messages = messages.left(messages.length()-1);
+    if (messages != "") {
+        messages = messages.left(messages.length()-1);
+        QList<QString> aaa = messages.split("\n");
+        int n = aaa.indexOf(aaa.last()) + 1;
+        QString messages_full;
+        for (int i = 0; i < n; i++)
+        {
+            QList<QString> parts = aaa[i].split("&");
+            messages_full = messages_full + get_username(parts[0]) + "&" + parts[1] + "&";
+        }
+        messages_full = messages_full.left(messages_full.length()-1);
 
-    QList<QString> aaa = messages.split("\n");
-    int n = aaa.indexOf(aaa.last()) + 1;
-    QString messages_full;
-    for (int i = 0; i < n; i++)
-    {
-        QList<QString> parts = aaa[i].split("&");
-        messages_full = messages_full + get_username(parts[0]) + "&" + parts[1] + "&";
-    }
-    messages_full = messages_full.left(messages_full.length()-1);
-
-    if (messages != "")
-        return messages_full;
-    else
-        return "message&send&0";
+        if (messages != "")
+            return messages_full;
+        else
+            return "message&send&0";
+    } else return "message&send&0";
 }
 
 
-// получение имени пользователя по его ID
+// получение имени пользователя по его ID +
 QString get_username(QString user_id) {
     auto username = SingletonDB::getInstance().sendQuery("SELECT username FROM Users WHERE user_id = '" + user_id + "';");
 
@@ -231,3 +232,30 @@ QString get_username(QString user_id) {
         return username.left(username.length()-2);
     return user_id;
 }
+
+/*
+// получение имён пользователей для всех существующих диалогов
+QString get_dialog_users(QString username) {
+    QString user_id = take_user_id(username);
+
+    QString dialogs_id = SingletonDB::getInstance().sendQuery(
+                "SELECT dialog_id FROM Dialog WHERE dialog_one_user_id = " + user_id + " OR  dialog_two_user_id = " + user_id + ";"
+                );
+    qDebug() << dialogs_id;
+    QString other_users_id1 = SingletonDB::getInstance().sendQuery(
+                "SELECT dialog_one_user_id FROM Dialog WHERE dialog_id = " + dialogs_id + " AND dialog_one_user_id != " + user_id + ";"
+                );
+    other_users_id1 = other_users_id1.left(other_users_id1.length() - 2);
+    qDebug() << other_users_id1;
+    QString other_users_id2 = SingletonDB::getInstance().sendQuery(
+                "SELECT dialog_two_user_id FROM Dialog WHERE dialog_id = " + dialogs_id + " AND dialog_two_user_id != " + user_id + ";"
+                );
+    other_users_id2 = other_users_id2.left(other_users_id2.length() - 2);
+    qDebug() << other_users_id2;
+
+    QList<QString> users_id = other_users_id1.split("&\n") + other_users_id2.split("&\n");
+    qDebug() << users_id;
+
+    return "";
+}
+*/

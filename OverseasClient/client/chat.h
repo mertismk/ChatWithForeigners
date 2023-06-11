@@ -22,6 +22,8 @@ public:
 private slots:
     void on_Chat_pushButton_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::Chat *ui;
     ChatClient *chatClient;

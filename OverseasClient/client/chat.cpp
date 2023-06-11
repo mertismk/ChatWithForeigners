@@ -68,3 +68,9 @@ void Chat::on_Chat_pushButton_clicked()
     }
 }
 
+
+void Chat::on_pushButton_clicked()
+{
+    loadDialog(CLIENTUSERNAME, DIALOGUSERNAME);
+}
+

@@ -47,14 +47,35 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QLineEdit" name="Chat_lineEdit"/>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLineEdit" name="Chat_lineEdit"/>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QPushButton" name="Chat_pushButton">
-        <property name="text">
-         <string>Отправить</string>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="rightMargin">
+         <number>0</number>
         </property>
-       </widget>
+        <item>
+         <widget class="QPushButton" name="Chat_pushButton">
+          <property name="text">
+           <string>Отправить</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>Обновить чат</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>

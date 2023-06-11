@@ -104,9 +104,33 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit"/>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLineEdit" name="dialog_lineEdit"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="dialog_pushButton">
+           <property name="text">
+            <string>Начать</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="dialogMessageLabel">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="label">

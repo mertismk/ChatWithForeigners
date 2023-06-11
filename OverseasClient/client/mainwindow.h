@@ -53,6 +53,8 @@ private slots:
 
     void on_Search_pushButton_clicked();
 
+    void on_dialog_pushButton_clicked();
+
 public slots:
     void updateField(const QString& newData);
     void eventInMainWindow(QString username, QString dialog_username);
