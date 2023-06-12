@@ -130,7 +130,7 @@ QString create_new_dialog(QString first_user, QString second_user) {
 
 // отправка сообщения +
 QString send_message(QString sender, QString getter, QString message_text) {
-
+    qDebug() << "started to send message" << sender << getter << message_text;
     // определение ID нового сообщения
     auto new_message_id = SingletonDB::getInstance().sendQuery(
                 "SELECT MAX(messages_id) + 1 FROM Messages"
@@ -182,7 +182,7 @@ QString take_user_id(QString username) {
 
 
 // получение всех сообщений в диалоге +
-QString get_all_dialog_message(QString first_user, QString second_user)
+QString get_all_dialog_message(QString first_user, QString second_user, QString language)
 {
     // определение ID отправителя
     auto first_user_id = SingletonDB::getInstance().sendQuery(
@@ -212,7 +212,7 @@ QString get_all_dialog_message(QString first_user, QString second_user)
         for (int i = 0; i < n; i++)
         {
             QList<QString> parts = aaa[i].split("&");
-            messages_full = messages_full + get_username(parts[0]) + "&" + parts[1] + "&";
+            messages_full = messages_full + get_username(parts[0]) + "&" + translateText(parts[1], language) + "&";
         }
         messages_full = messages_full.left(messages_full.length()-1);
 

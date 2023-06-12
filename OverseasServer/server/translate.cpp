@@ -1,16 +1,27 @@
 #include "translate.h"
 
-const QString YANDEX_API_KEY = ""; // Сюда ключ
 const QString YANDEX_FOLDER_ID = "b1g3mdf1hifkgr4hhdsj";
 
-QString translateText(const QString& text, const QString& sourceLanguageCode,
-                      const QString& targetLanguageCode) {
+QString getApi() {
+    QFile file("../../key.txt");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Can't open file";
+        return "";
+    }
+
+    QTextStream in(&file);
+    QString fileContent = in.readAll();
+    file.close();
+
+    return fileContent.trimmed();
+}
+
+QString translateText(const QString& text, const QString& targetLanguageCode) {
     QNetworkAccessManager manager;
     QNetworkRequest request;
     QUrl url("https://translate.api.cloud.yandex.net/translate/v2/translate");
     QJsonObject json;
 
-    json["sourceLanguageCode"] = sourceLanguageCode;
     json["targetLanguageCode"] = targetLanguageCode;
     json["format"] = "PLAIN_TEXT";
     json["texts"] = QJsonArray::fromStringList({text});
@@ -18,7 +29,8 @@ QString translateText(const QString& text, const QString& sourceLanguageCode,
 
     request.setUrl(url);
     request.setRawHeader("Authorization",
-                         QString("Bearer %1").arg(YANDEX_API_KEY).toUtf8());
+                         QString("Bearer %1").arg(getApi()).toUtf8());
+
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     QNetworkReply* reply = manager.post(request, QJsonDocument(json).toJson());

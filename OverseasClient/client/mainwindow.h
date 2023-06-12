@@ -27,18 +27,6 @@ private slots:
 
     void on_Exit_pushButton_clicked();
 
-    void on_RusLang_action_triggered();
-
-    void on_EngLang_action_triggered();
-
-    void on_GerLang_action_triggered();
-
-    void on_FrLang_action_triggered();
-
-    void on_ChLang_action_triggered();
-
-    void on_SpLang_action_triggered();
-
     void on_Chat1_pushButton_clicked();
 
     void on_Chat2_pushButton_clicked();
@@ -54,6 +42,8 @@ private slots:
     void on_Search_pushButton_clicked();
 
     void on_dialog_pushButton_clicked();
+
+    void on_Search_lineEdit_returnPressed();
 
 public slots:
     void updateField(const QString& newData);

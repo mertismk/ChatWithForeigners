@@ -27,6 +27,10 @@ private slots:
 
     void on_exit_pushButton_clicked();
 
+    void on_login_lineEdit_returnPressed();
+
+    void on_password_lineEdit_returnPressed();
+
 signals:
     void return_auth();
     void updateData(const QString& newData);

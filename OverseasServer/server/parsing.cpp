@@ -31,9 +31,9 @@ QString take_user(QString username) {
     return take_user_id(username);
 }
 
-QString take_messages(QString first_user, QString second_user) {
+QString take_messages(QString first_user, QString second_user, QString language) {
     qDebug() << first_user << second_user;
-    return get_all_dialog_message(first_user, second_user);
+    return get_all_dialog_message(first_user, second_user, language);
 }
 
 QString take_username(QString user_id) {
@@ -103,8 +103,7 @@ QString fparsing(QByteArray message) {
             QString first_user = parts[1];
             QString second_user = parts[2];
             QString message_text = parts[3];
-            QString translated_text = translateText(message_text, "en", "ru");
-            qDebug() << translated_text;
+
             QString res = sending_message(first_user, second_user, message_text);
             qDebug() << res;
             return res;
@@ -120,13 +119,15 @@ QString fparsing(QByteArray message) {
             return res;
         }
     } else if (parts[0] == "take_all_messages") {
-        if (parts.length() != 3) {
+
+        if (parts.length() != 4) {
             qDebug() << "error";
             return "error";
         } else {
             QString first_user = parts[1];
             QString second_user = parts[2];
-            QString res = take_messages(first_user, second_user);
+            qDebug() << "i'm here" << first_user << second_user << language;
+            QString res = take_messages(first_user, second_user, language);
             qDebug() << res;
             return res;
         }

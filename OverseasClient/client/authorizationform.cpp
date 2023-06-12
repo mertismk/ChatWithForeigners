@@ -12,7 +12,7 @@ AuthorizationForm::AuthorizationForm(QWidget *parent) :
     ui->email_label->setVisible(0);
     ui->email_lineEdit->setVisible(0);
     ui->exit_pushButton->setVisible(0);
-
+    ui->password_lineEdit->setEchoMode(QLineEdit::Password);
     chatClient = new ChatClient;
     chatClient->connectToServer("127.0.0.1", 33333);
 }
@@ -98,5 +98,29 @@ void AuthorizationForm::on_exit_pushButton_clicked()
     ui->exit_pushButton->setVisible(0);
     ui->signIn_pushButton->setVisible(1);
     FLAG = 0;
+}
+
+
+void AuthorizationForm::on_login_lineEdit_returnPressed()
+{
+    ui->password_lineEdit->setFocus();
+}
+
+
+void AuthorizationForm::on_password_lineEdit_returnPressed()
+{
+    QString login = ui->login_lineEdit->text();
+    QString password = ui->password_lineEdit->text();
+    chatClient->sendMessage("login&" + login + "&" + password + "\n");
+    auto aaa = chatClient->getResponse();
+    aaa = aaa.left(aaa.length());
+    if (aaa != "auth&0" && aaa != "") {
+        QMessageBox::information(this, "Ура", "Вы успешно авторизовались, " + aaa);
+        emit updateData(aaa);
+        emit return_auth();
+        hide();
+    } else {
+        QMessageBox::critical(this, "Ошибка", "Логин или пароль неверны, попробуйте снова");
+    }
 }
 

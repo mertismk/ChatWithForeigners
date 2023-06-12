@@ -6,34 +6,122 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>431</width>
+    <width>402</width>
     <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Chat</string>
   </property>
-  <widget class="QWidget" name="verticalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>1</y>
-     <width>415</width>
-     <height>591</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout_2">
-    <item>
-     <widget class="QLabel" name="Chat_Username">
-      <property name="text">
-       <string>Имя пользователя</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QTextBrowser" name="Chat_textBrowser">
-      <property name="html">
-       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+  <layout class="QVBoxLayout" name="verticalLayout_4">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QLabel" name="Chat_Username">
+       <property name="text">
+        <string>Имя пользователя</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox">
+       <item>
+        <property name="text">
+         <string>Русский</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Азербайджанский</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Английский</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Арабский</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Армянский</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Белорусский</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Грузинский</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Испанский</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Итальянский</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Казахский</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Киргизский</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Китайский</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Немецкий</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Сербский</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Турецкий</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Украинский</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Французский</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTextBrowser" name="Chat_textBrowser">
+       <property name="minimumSize">
+        <size>
+         <width>379</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="html">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
@@ -41,54 +129,54 @@ li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QLineEdit" name="Chat_lineEdit"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QPushButton" name="Chat_pushButton">
-          <property name="text">
-           <string>Отправить</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton">
-          <property name="text">
-           <string>Обновить чат</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Перевод осуществляется с помощью 
- Яндекс.Переводчика</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLineEdit" name="Chat_lineEdit"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="Chat_pushButton">
+           <property name="text">
+            <string>Отправить</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>Обновить чат</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Перевод осуществляется с помощью сервиса «Яндекс.Переводчик».</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

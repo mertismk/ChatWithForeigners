@@ -72,42 +72,6 @@ void MainWindow::on_Exit_pushButton_clicked()
 }
 
 
-void MainWindow::on_RusLang_action_triggered()
-{
-    qDebug()<<"Russian Language Changed";
-}
-
-
-void MainWindow::on_EngLang_action_triggered()
-{
-    qDebug()<<"English Language Changed";
-}
-
-
-void MainWindow::on_GerLang_action_triggered()
-{
-    qDebug()<<"German Language Changed";
-}
-
-
-void MainWindow::on_FrLang_action_triggered()
-{
-    qDebug()<<"Franch Language Changed";
-}
-
-
-void MainWindow::on_ChLang_action_triggered()
-{
-    qDebug()<<"Chinese Language Changed";
-}
-
-
-void MainWindow::on_SpLang_action_triggered()
-{
-    qDebug()<<"Spanish Language Changed";
-}
-
-
 void MainWindow::on_Chat1_pushButton_clicked()
 {
     //ui_chat->show();
@@ -153,8 +117,10 @@ void MainWindow::on_Search_pushButton_clicked()
     qDebug()<<aaa;
     if (aaa != "" && aaa != "exist&0")
     {
-        eventInMainWindow(USERNAME_MAINWINDOW, user_dialog);
         ui_chat->show();
+        eventInMainWindow(USERNAME_MAINWINDOW, user_dialog);
+    } else if (aaa != "") {
+        QMessageBox::critical(this, "Ошибка", "Пользователь не найден");
     }
 }
 
@@ -186,3 +152,20 @@ void MainWindow::updateDialogList()
     ui->label->setText(aaa);
 }
 */
+
+void MainWindow::on_Search_lineEdit_returnPressed()
+{
+    QString user_dialog = ui->Search_lineEdit->text();
+    qDebug()<<user_dialog;
+    chatClient->sendMessage("select_user&" + user_dialog + "\n");
+    QString aaa = chatClient->getResponse().trimmed();
+    qDebug()<<aaa;
+    if (aaa != "" && aaa != "exist&0")
+    {
+        ui_chat->show();
+        eventInMainWindow(USERNAME_MAINWINDOW, user_dialog);
+    } else if (aaa != "") {
+        QMessageBox::critical(this, "Ошибка", "Пользователь не найден");
+    }
+}
+

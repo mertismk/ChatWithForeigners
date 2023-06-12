@@ -6,6 +6,8 @@
 #include <QDebug>
 #include <QtSql/QSqlRecord>
 
+#include "translate.h"
+
 class SingletonDB;
 
 class SingletonDBDestroyer
@@ -58,7 +60,7 @@ QString change_username(QString old_username, QString new_username);
 QString create_new_dialog(QString first_user, QString second_user);
 QString send_message(QString sender, QString getter, QString message_text);
 QString take_user_id(QString username);
-QString get_all_dialog_message(QString first_user, QString second_user);
+QString get_all_dialog_message(QString first_user, QString second_user, QString language);
 QString get_username(QString user_id);
 QString get_dialog_users(QString user_id);
 
