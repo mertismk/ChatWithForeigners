@@ -126,7 +126,7 @@ QString fparsing(QByteArray message) {
         } else {
             QString first_user = parts[1];
             QString second_user = parts[2];
-            qDebug() << "i'm here" << first_user << second_user << language;
+            QString language = parts[3];
             QString res = take_messages(first_user, second_user, language);
             qDebug() << res;
             return res;
