@@ -15,6 +15,5 @@
 #include <QTextStream>
 
 QString translateText(const QString& text, const QString& targetLanguageCode);
-QString getApi();
 
 #endif	// TRANSLATE_H

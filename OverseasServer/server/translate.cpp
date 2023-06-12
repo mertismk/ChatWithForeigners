@@ -1,20 +1,7 @@
 #include "translate.h"
 
 const QString YANDEX_FOLDER_ID = "b1g3mdf1hifkgr4hhdsj";
-
-QString getApi() {
-    QFile file("../../key.txt");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Can't open file";
-        return "";
-    }
-
-    QTextStream in(&file);
-    QString fileContent = in.readAll();
-    file.close();
-
-    return fileContent.trimmed();
-}
+const QString YANDEX_API_KEY = ""; // сюда ключ
 
 QString translateText(const QString& text, const QString& targetLanguageCode) {
     QNetworkAccessManager manager;
@@ -29,7 +16,7 @@ QString translateText(const QString& text, const QString& targetLanguageCode) {
 
     request.setUrl(url);
     request.setRawHeader("Authorization",
-                         QString("Bearer %1").arg(getApi()).toUtf8());
+                         QString("Bearer %1").arg(YANDEX_API_KEY).toUtf8());
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
